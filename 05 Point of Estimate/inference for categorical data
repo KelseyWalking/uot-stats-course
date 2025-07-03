@@ -1,0 +1,1294 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "4f0de47e-b00d-4491-9ab9-a05a5469d0ce",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total entries: 250000000\n",
+      "Count of 'support': 219999379\n",
+      "Count of 'not': 30000621\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import scipy.stats as stats\n",
+    "''' 1. Create a set of 250 million entries, where 88% of them are \"support\"\n",
+    "# and 12% are \"not\".\n",
+    "pop size <- 250000000\n",
+    "possible entries <- c(rep(\"support\", 0.88 * pop size), rep(\"not\", 0.12 * pop size))\n",
+    "# 2. Sample 1000 entries without replacement.\n",
+    "sampled entries <- sample(possible entries, size = 1000)\n",
+    "# 3. Compute p-hat: count the number that are \"support\", then divide by\n",
+    "# the sample size.\n",
+    "sum(sampled entries == \"support\") / 1000\n",
+    "'''\n",
+    "\n",
+    "\n",
+    "# Define the total number of entries\n",
+    "total_entries = 250_000_000\n",
+    "\n",
+    "# Calculate the probabilities for \"support\" and \"not\"\n",
+    "probabilities = [0.88, 0.12]\n",
+    "\n",
+    "# Define the possible entries\n",
+    "entries = [\"support\", \"not\"]\n",
+    "\n",
+    "# Generate the dataset with the specified probabilities\n",
+    "generated_entries = np.random.choice(entries, size=total_entries, p=probabilities)\n",
+    "\n",
+    "# Verify the counts of each entry type\n",
+    "count_support = np.sum(generated_entries == 'support')\n",
+    "count_not = np.sum(generated_entries == 'not')\n",
+    "\n",
+    "print(f\"Total entries: {len(generated_entries)}\")\n",
+    "print(f\"Count of 'support': {count_support}\")\n",
+    "print(f\"Count of 'not': {count_not}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "e9935f4b-c954-46a7-a4b9-d3a433cb9e2c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.880024584"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "p=count_support/total_entries\n",
+    "p"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "1824355c-adbe-40fe-929a-8ccf5e529cde",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.874"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Sample 1000 entries without replacement\n",
+    "sampled_entries = np.random.choice(generated_entries, size=1000, replace=True)\n",
+    "# p_hat\n",
+    "p_hat= np.sum(sampled_entries == 'support')/1000\n",
+    "p_hat"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1622a4b1-f92c-4c8a-b20f-1bca3f2c41ba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Number of simulations\n",
+    "num_simulations = 100\n",
+    "\n",
+    "# List to store p_hat values\n",
+    "p_hat_values = []\n",
+    "\n",
+    "# Run simulations\n",
+    "for _ in range(num_simulations):\n",
+    "    # Sample 1000 entries without replacement\n",
+    "    sample = np.random.choice(generated_entries, size=100, replace=False)\n",
+    "    \n",
+    "    # Calculate p_hat (proportion of 'support' in the sample)\n",
+    "    p_hat = np.mean(sample == 'support')\n",
+    "    \n",
+    "    # Store the p_hat value\n",
+    "    p_hat_values.append(p_hat)\n",
+    "\n",
+    "# Convert p_hat_values to a numpy array for easier manipulation\n",
+    "p_hat_values = np.array(p_hat_values)\n",
+    "\n",
+    "# Plot histogram of p_hat values\n",
+    "plt.hist(p_hat_values, bins=50, edgecolor='k', alpha=0.7)\n",
+    "plt.title('Histogram of p_hat Values')\n",
+    "plt.xlabel('p_hat')\n",
+    "plt.ylabel('Frequency')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2266246e-1257-4278-99b7-169f8d08a2b6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "p_hat_values"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "817b43cb-6c7a-4f16-8a6c-1e0801ba080d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.13693063937629152"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "((0.25*0.75)/10)**(1/2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "b14278e6-ef1b-4448-a259-cf22ff0800af",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.010011543337567888"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "((0.887*(1-0.887))/1000)**(1/2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "53f6e13a-45ac-4bea-9605-e7068bf39d52",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#1. use point of obervation and significent level to calculate interval"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "a0067bd5-e297-4d9f-b541-0f26809c66f0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The standard error (SE) is: 0.011901708775845125\n"
+     ]
+    }
+   ],
+   "source": [
+    "import math\n",
+    "from scipy.stats import norm\n",
+    "\n",
+    "def calculate_se(p_hat, n):\n",
+    "    # Ensure that n is not zero to avoid division by zero\n",
+    "    if n == 0:\n",
+    "        raise ValueError(\"Sample size n must be greater than 0\")\n",
+    "    \n",
+    "    se = math.sqrt((p_hat * (1 - p_hat)) / n)\n",
+    "    return se\n",
+    "\n",
+    "# Example usage\n",
+    "p_hat = 0.82  # Sample proportion\n",
+    "n = 1042      # Sample size\n",
+    "\n",
+    "se = calculate_se(p_hat, n)\n",
+    "print(f\"The standard error (SE) is: {se}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "986b67fb-4e95-4116-a51d-347b1df7eaa9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0.8433269205551407, 0.7966730794448592)"
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def calculate_interval(p_hat,z_score, se):    \n",
+    "    intervalP = p_hat+z_score*se\n",
+    "    intervalN = p_hat-z_score*se\n",
+    "    return intervalP, intervalN\n",
+    "\n",
+    "confidence=0.95\n",
+    "#The norm.ppf function from scipy.stats computes the percent point function (inverse of the cumulative distribution function) for a given probability.\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "interval"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "ad939551-eef1-45e5-b300-c0bb5f20274f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The z-score for a 95.0% confidence level is: 1.959963984540054\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"The z-score for a {confidence*100}% confidence level is: {z_score}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "a8a9fcf3-a4ae-4aef-942f-964c110a4241",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0.877244001646239, 0.818755998353761)"
+      ]
+     },
+     "execution_count": 38,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Example usage\n",
+    "p_hat = 0.848  # Sample proportion\n",
+    "n = 1000      # Sample size\n",
+    "confidence=0.99\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "se = calculate_se(p_hat, n)\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "interval"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "ebda0073-f2eb-4312-a29a-b02437fa69e0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0.35837922865896776, 0.12162077134103225)"
+      ]
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#H0=0.33\n",
+    "#HA~=0.33\n",
+    "#sample_proportion_point_of_estimate = 0.24\n",
+    "# Example usage\n",
+    "p_hat = 0.24  # point of estimate\n",
+    "n=50     # Sample size\n",
+    "confidence=0.95\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "se = calculate_se(p_hat, n)\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "interval"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "f755eed8-abd5-401b-8e35-9f7646b29ce2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0.22659896236402388, 0.07140103763597609)"
+      ]
+     },
+     "execution_count": 46,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''GUIDED PRACTICE 5.23\n",
+    "This time we took a larger sample of 228 college-educated adults, 34 (14.9%) selected the correct\n",
+    "answer to the question in Guided Practice.\n",
+    "Compute a 95% confidence interval for the fraction of college-educated adults who answered the\n",
+    "children-in-2100 question correctly, and evaluate the hypotheses in Guided Practice.'''\n",
+    "#H0=0.33\n",
+    "#HA~=0.33\n",
+    "#sample_proportion_point_of_estimate = 0.149\n",
+    "# Example usage\n",
+    "p_hat = 0.149  # point of estimate\n",
+    "n=228     # Sample size\n",
+    "confidence=0.999\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "se = calculate_se(p_hat, n)\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "interval"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "807282ac-da7b-402d-aa39-f634782ee84f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#2.COMPARE THE P-VALUE TO α TO EVALUATE H0"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "0667b325-df3c-4ef2-be89-7e7f5b7cc7c6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(3.847492690051539, 0.015594571538795133, 0.0001193328366213553)"
+      ]
+     },
+     "execution_count": 57,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    " simple random sample of 1028 US adults in March 2013 show that 56% support nuclear arms\n",
+    "reduction. Does this provide convincing evidence that a majority of Americans supported nuclear\n",
+    "arms reduction at the 5% significance level?\n",
+    "'''\n",
+    "\n",
+    "#H0=50%\n",
+    "#Ha>50%\n",
+    "\n",
+    "p_hat = 0.5  # population mean\n",
+    "x=0.56\n",
+    "n=1028     # Sample size\n",
+    "alpha=0.05\n",
+    "se = calculate_se(p_hat, n)\n",
+    "z_score =( x-p_hat)/se\n",
+    "#calculate the p-value by using the cumulative distribution function (norm.cdf).\n",
+    "p_value =2* (1 - stats.norm.cdf(z_score))\n",
+    "z_score,se,p_value\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "id": "8808408e-bdab-463c-b774-36a9a1db3421",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((0.7312512731429909, 0.668748726857009),\n",
+       " 0.015944820103582016,\n",
+       " 1.959963984540054)"
+      ]
+     },
+     "execution_count": 64,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    " simple random sample of 826 payday loan borrowers was surveyed to better understand their\n",
+    "interests around regulation and costs. 70% of the responses supported new regulations on payday\n",
+    "lenders.\n",
+    "\n",
+    "Estimate the standard error of ˆp = 0.70. Because p is unknown and the standard error is for a\n",
+    "confidence interval, use ˆp in place of p in the formula.1\n",
+    "\n",
+    "Construct a 95% confidence interval for p, the proportion of payday borrowers who support increased\n",
+    "regulation for payday lenders.\n",
+    "'''\n",
+    "\n",
+    "p_hat = 0.7  # sample mean\n",
+    "\n",
+    "n=826     # Sample size\n",
+    "\n",
+    "se = calculate_se(p_hat, n)\n",
+    "confidence=0.95\n",
+    "#The norm.ppf function from scipy.stats computes the percent point function (inverse of the cumulative distribution function) for a given probability.\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "interval,se, z_score"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "4a15b11a-ba3d-4a1b-b94b-05c04b3c19b4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0.017397225015980525, 0.5748043145279971, 0.5654236484645514)"
+      ]
+     },
+     "execution_count": 67,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''Do payday loan borrowers support a regulation that would require lenders to pull their credit report\n",
+    "and evaluate their debt payments? From a random sample of 826 borrowers, 51% said they would\n",
+    "support such a regulation.  \n",
+    "evaluate whether the poll provides\n",
+    "convincing evidence that a majority of payday loan borrowers support a new regulation that would\n",
+    "require lenders to pull credit reports and evaluate debt payments.\n",
+    "'''\n",
+    "\n",
+    "\n",
+    "#H0=50%\n",
+    "#Ha>50%\n",
+    "p_hat = 0.5  # p0 mean\n",
+    "x=0.51\n",
+    "n=826     # Sample size\n",
+    "alpha=0.05\n",
+    "se = calculate_se(p_hat, n)\n",
+    "z_score =( x-p_hat)/se\n",
+    "p_value =2* (1 - stats.norm.cdf(z_score))\n",
+    "se, z_score,p_value\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "id": "d3de5461-8d1e-46bf-9b48-5832fe1c2416",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(1.6448536269514722, 0.006079568319117692, 347.14828059498234)"
+      ]
+     },
+     "execution_count": 70,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''A manager is about to oversee the mass production of a new tire model in her factory, and she would\n",
+    "like to estimate what proportion of these tires will be rejected through quality control. The quality\n",
+    "control team has monitored the last three tire models produced by the factory, failing 1.7% of tires\n",
+    "in the first model, 6.2% of the second model, and 1.3% of the third model. The manager would like\n",
+    "to examine enough tires to estimate the failure rate of the new tire model to within about 1% with\n",
+    "a 90% confidence level. There are three different failure rates to choose from. Perform the sample\n",
+    "size computation for each separately, and identify three sample sizes to consider\n",
+    "'''\n",
+    "p_hat = 0.013  # population mean\n",
+    "margin=0.01\n",
+    "confidence=0.9\n",
+    "#The norm.ppf function from scipy.stats computes the percent point function (inverse of the cumulative distribution function) for a given probability.\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "se=margin/z_score\n",
+    "#se**2=(p_hat*(1-p_hat))/n\n",
+    "n=(p_hat*(1-p_hat))/se**2\n",
+    "\n",
+    "z_score,se, n\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "id": "0d63e619-e5a3-4a4b-afaf-3ffcf8690ae5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(1.959963984540054, 0.0255106728462327, 322.6825409383065)"
+      ]
+     },
+     "execution_count": 73,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    "we decide a wider margin of error of 5% for each individual survey would be acceptable. Based on\n",
+    "the original sample of borrowers where 70% supported some form of regulation, how big should our\n",
+    "monthly sample be for a margin of error of 0.05 with 95% confidence\n",
+    "'''\n",
+    "p_hat = 0.7  # population mean\n",
+    "margin=0.05\n",
+    "confidence=0.95\n",
+    "#The norm.ppf function from scipy.stats computes the percent point function (inverse of the cumulative distribution function) for a given probability.\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "se=margin/z_score\n",
+    "#se**2=(p_hat*(1-p_hat))/n\n",
+    "n=(p_hat*(1-p_hat))/se**2\n",
+    "\n",
+    "z_score,se, n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "87e1cd67-4548-4945-9470-dd92a76af8dc",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(-0.004246710608608092,\n",
+       " (-0.0014517763930541822, -0.007041644824162001),\n",
+       " 0.0014260130479947562,\n",
+       " 1.959963984540054)"
+      ]
+     },
+     "execution_count": 76,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    "A 5-year experiment was conducted to evaluate the effectiveness of fish oils on reducing cardiovascular\n",
+    "events, where each subject was randomized into one of two treatment groups. We’ll consider heart\n",
+    "attack outcomes in these patients:\n",
+    "heart attack no event Total\n",
+    "fish oil 145 12788 12933\n",
+    "placebo 200 12738 12938\n",
+    "Create a 95% confidence interval for the effect of fish oils on heart attacks for patients who are\n",
+    "well-represented by those in the study. Also interpret the interval in the context of the study.\n",
+    "'''\n",
+    "p_f=145/12933\n",
+    "p_p=200/12938\n",
+    "\n",
+    "p_hat = p_f-p_p  # sample mean\n",
+    "\n",
+    "n_f=12933     # Sample size\n",
+    "n_p=12938\n",
+    "\n",
+    "var = (p_f*(1-p_f))/n_f  + (p_p*(1-p_p))/n_p\n",
+    "se = var**(1/2)\n",
+    "\n",
+    "confidence=0.95\n",
+    "#The norm.ppf function from scipy.stats computes the percent point function (inverse of the cumulative distribution function) for a given probability.\n",
+    "z_score = norm.ppf(0.5+ confidence / 2)\n",
+    "\n",
+    "interval=calculate_interval(p_hat,z_score, se)\n",
+    "p_hat,interval,se, z_score\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "id": "6d14c2c5-2558-40db-b468-554e34c90a40",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(33.0, 24.75)"
+      ]
+     },
+     "execution_count": 77,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    "Race White Black Hispanic Other Total\n",
+    "Representation in juries 205 26 25 19 275\n",
+    "Registered voters 0.72 0.07 0.12 0.09 1.00\n",
+    "Twelve percent of the population is Hispanic and 9% represent other races. How many of the 275\n",
+    "jurors would we expect to be Hispanic or from another race?\n",
+    "'''\n",
+    "popu=275\n",
+    "0.12*popu,0.09*popu"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "86659a81-7c95-4bb6-9e12-f2861479456d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The tail area for a chi-square distribution with 2 degrees of freedom and a bound at 4.3 is 0.1165\n"
+     ]
+    }
+   ],
+   "source": [
+    "'''\n",
+    "shows the upper tail of a chi-square distribution with 2 degrees of freedom. The bound\n",
+    "for this upper tail is at 4.3. Find the tail area.\n",
+    "'''\n",
+    "import scipy.stats as stats\n",
+    "\n",
+    "# Parameters\n",
+    "df = 2  # degrees of freedom\n",
+    "bound = 4.3\n",
+    "\n",
+    "# Calculate the upper tail area\n",
+    "'''\n",
+    "In the context of statistical functions provided by libraries like scipy.stats, sf stands for \"survival function.\" The survival function is the complement of the cumulative distribution function (CDF) and represents the probability that a random variable exceeds a certain value. Mathematically, it can be expressed as:\n",
+    "\n",
+    "[ \\text{SF}(x) = 1 - \\text{CDF}(x) ]\n",
+    "\n",
+    "So, when you use stats.chi2.sf(x, df), it computes the probability that a chi-square random variable with df degrees of freedom is greater than x. This is particularly useful for finding p-values in hypothesis testing.\n",
+    "\n",
+    "Here's a brief summary of key functions:\n",
+    "\n",
+    "PDF (Probability Density Function): Describes the likelihood of a random variable taking on a specific value.\n",
+    "CDF (Cumulative Distribution Function): Represents the probability that a random variable takes on a value less than or equal to a specific value.\n",
+    "SF (Survival Function): Represents the probability that a random variable takes on a value greater than a specific value. It is computed as (1 - \\text{CDF}(x)).\n",
+    "In practice, using the survival function is often convenient for calculating upper tail probabilities directly.\n",
+    "'''\n",
+    "tail_area = stats.chi2.sf(bound, df)\n",
+    "\n",
+    "print(f\"The tail area for a chi-square distribution with {df} degrees of freedom and a bound at {bound} is {tail_area:.4f}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "id": "e22d6a97-634a-4924-ae8a-56a138f09233",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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fWmaMgx/rH/++afJ/t9//93ktuGL5ckvhsdHXD3Pq6++iqIoXLt2Lc1rq1GjxjNrbp4nIiKCDz74AA8PD9555x2zHmNnZ0etWrWMo18M5WdpjcLznDp1Kk3twrJly3Bzc6NatWqA+e+DIT5zY2vatCnbt283fuEaLF26FFdX1wwdNt+sWTO2b99OWFgYQUFBAJQuXRofHx8+++wzkpKSTOZoSk9Gl/3zGJp8SpYs+VLnWbJkCRs3buSNN94wNneb+3mvVasWTk5OaYbPHzhw4LlNjwb16tUjT548nD59Ot3nMnx/uLq60rhxY44fP06lSpXSPS69Gus8efLQqVMnBg8ezO3bt585Wqtp06acPn06TfPu0qVL0el0aWq2M9urr77KhQsXyJ8/f7qv1/C3Z+77Zcn3a1Yri6xGaoCymTp16jBv3jwGDRpE9erVeffdd6lQoQJJSUkcP36cBQsWEBAQQNu2bTPl+e/du0fjxo3p3r07ZcuWxc3NjcOHD7Np0yY6dOgAqO3gH3zwARMnTqR///507tyZq1evMm7cuDRVtK+88gplypThgw8+IDk5mbx58/Lbb7+xd+9ek+PKli1LiRIlGDVqFIqikC9fPtauXWvs32GOevXqMWDAAN566y2OHDlCYGAguXLlIjIykr1791KxYkXefffd557n5MmTxvb56Oho9uzZw5IlS7Czs+O3334zDqVOz/z589m+fTtt2rTBx8eH+Ph443+Ghh9nNzc3fH19WbNmDU2bNiVfvnwUKFDgqf0xnqdIkSK89tprjBs3jsKFC/Pjjz8SFhbGlClTjP9Fm/s+AFSsWJFff/2VefPmUb16dfR6/VObBcaOHcu6deto3Lgxn332Gfny5eOnn35i/fr1TJ06NUMn7WvatClz587l5s2bJjNVN23alCVLlpA3b16TIfDpyeiyf1zdunV57bXXKFeuHB4eHly+fJl58+Zx4cIFsycuffjwobGPzMOHD7l48SKrV69m3bp1NGzYkPnz5xuPNffzni9fPoKDg5k8eTJ58+alffv2/Pvvv4wfP57ChQub9Al5mty5czN79mx69+7N7du36dSpE4UKFeLGjRucOHGCGzduMG/ePABmzpxJ/fr1adCgAe+++y7Fixfn/v37nD9/nrVr1xr7pbRt29Y451bBggW5cuUKISEh+Pr6UqpUqafGMmLE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",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import scipy.stats as stats\n",
+    "\n",
+    "# Parameters\n",
+    "df = 3  # degrees of freedom\n",
+    "bound =  5.89\n",
+    "\n",
+    "# Generate x values\n",
+    "x = np.linspace(0, 10, 500)\n",
+    "\n",
+    "# Calculate the chi-square PDF (Probability density function )  values\n",
+    "pdf_values = stats.chi2.pdf(x, df)\n",
+    "\n",
+    "# Plot the chi-square distribution\n",
+    "plt.plot(x, pdf_values, label='Chi-square PDF', color='blue')\n",
+    "\n",
+    "# Shade the upper tail area\n",
+    "x_fill = x[x >= bound]\n",
+    "y_fill = stats.chi2.pdf(x_fill, df)\n",
+    "plt.fill_between(x_fill, y_fill, color='red', alpha=0.5, label='Upper Tail Area')\n",
+    "\n",
+    "# Add labels and legend\n",
+    "plt.xlabel('x')\n",
+    "plt.ylabel('Probability Density')\n",
+    "plt.title(f'Chi-square Distribution with {df} Degrees of Freedom')\n",
+    "plt.legend()\n",
+    "\n",
+    "# Show plot\n",
+    "plt.grid(True)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "id": "e94b4379-14ae-4399-b107-d6d17b7f8dea",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The tail area for a chi-square distribution with 3 degrees of freedom and a bound at 5.89 is 0.1171\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Calculate the upper tail area\n",
+    "tail_area = stats.chi2.sf(bound, df)\n",
+    "\n",
+    "print(f\"The tail area for a chi-square distribution with {df} degrees of freedom and a bound at {bound} is {tail_area:.4f}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "id": "ff12a296-eba2-44e0-9c0f-c2a9703f85a6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "([0.9098250336473755,\n",
+       "  2.8431952662721893,\n",
+       "  0.006493506493506494,\n",
+       "  0.014285714285714285,\n",
+       "  0.5,\n",
+       "  0.0,\n",
+       "  0.3333333333333333],\n",
+       " 4.607132854032119,\n",
+       " 0.5950932849625075)"
+      ]
+     },
+     "execution_count": 93,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    " evaluating whether a certain statistical model fits a data set. Daily stock returns from the S&P500 for 10 can\n",
+    " be used to assess whether stock activity each day is independent of the stock’s behavior on previous\n",
+    "days.  a chi-square test can be used to study\n",
+    "the problem. We will label each day as Up or Down (D) depending on whether the market was up\n",
+    "or down that day. For example, consider the following changes in price, their new labels of up and\n",
+    "down, and then the number of days that must be observed before each Up day\n",
+    "If the days really are independent, then the number of days until a positive trading day should follow\n",
+    "a geometric distribution. The geometric distribution describes the probability of waiting for the k\n",
+    "th\n",
+    "trial to observe the first success. Here each up day (Up) represents a success, and down (D) days\n",
+    "represent failures. In the data above, it took only one day until the market was up, so the first wait\n",
+    "time was 1 day. It took two more days before we observed our next Up trading day, and two more\n",
+    "for the third Up day. We would like to determine if these counts (1, 2, 2, 1, 4, and so on) follow\n",
+    "the geometric distribution. Figure 6.10 shows the number of waiting days for a positive trading day\n",
+    "during 10 years for the S&P500.\n",
+    "Days 1 2 3 4 5 6 7+ Tota\n",
+    "Days 1 2 3 4 5 6 7+ Total\n",
+    "Observed 717 369 155 69 28 14 10 1362\n",
+    "Geometric Model 743 338 154 70 32 14 12 1362\n",
+    "\n",
+    "The S&P500 was positive on 54.5% of those days.\n",
+    "\n",
+    " Distribution of the waiting time until a positive trading day. The\n",
+    "expected counts based on the geometric model are shown in the last row. To\n",
+    "find each expected count, we identify the probability of waiting D days based on\n",
+    "the geometric model (P(D) = (1 − 0.545)D−1\n",
+    "(0.545)) and multiply by the total\n",
+    "number of streaks, 1362. For example, waiting for three days occurs under the\n",
+    "geometric model about 0.4552 × 0.545 = 11.28% of the time, which corresponds to\n",
+    "0.1128 × 1362 = 154 streaks.\n",
+    "\n",
+    "'''\n",
+    "t=[717, 369, 155, 69,28, 14, 10]\n",
+    "a=[743, 338, 154, 70, 32, 14, 12,]\n",
+    "X=[]\n",
+    "for i in range(len(t)):\n",
+    "    x=(t[i]-a[i])**2/a[i]\n",
+    "    X.append(x)\n",
+    "\n",
+    "\n",
+    "tail_area = stats.chi2.sf(sum(X), 6)\n",
+    "    \n",
+    "X,sum(X),tail_area"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "id": "654978e0-903d-4212-a17c-f4dfa09e3fc2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Expected Values:\n",
+      "[[106.78969957 127.21030043]\n",
+      " [105.8769671  126.1230329 ]\n",
+      " [106.33333333 126.66666667]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "'''\n",
+    "Figure 6.17 summarizes the results of an experiment evaluating three treatments for Type 2 Diabetes\n",
+    "in patients aged 10-17 who were being treated with metformin. The three treatments considered\n",
+    "were continued treatment with metformin (met), treatment with metformin combined with rosigli\u0002tazone (rosi), or a lifestyle intervention program. Each patient had a primary outcome, which was\n",
+    "either lacked glycemic control (failure) or did not lack that control (success). What are appropriate\n",
+    "hypotheses for this test?\n",
+    "H0: There is no difference in the effectiveness of the three treatments.\n",
+    "HA: There is some difference in effectiveness between the three treatments, e.g. perhaps the rosi\n",
+    "treatment performed better than lifestyle.\n",
+    "Failure Success Total\n",
+    "lifestyle 109 125 234\n",
+    "met 120 112 232\n",
+    "rosi 90 143 233\n",
+    "Total 319 380 699\n",
+    "'''\n",
+    "import numpy as np\n",
+    "\n",
+    "# Given data\n",
+    "observed = np.array([\n",
+    "    [109, 125],\n",
+    "    [120, 112],\n",
+    "    [90, 143]\n",
+    "])\n",
+    "\n",
+    "# Totals\n",
+    "row_totals = np.array([234, 232, 233])\n",
+    "column_totals = np.array([319, 380])\n",
+    "grand_total = 699\n",
+    "\n",
+    "# Calculate expected values\n",
+    "expected = np.outer(row_totals, column_totals) / grand_total\n",
+    "\n",
+    "print(\"Expected Values:\")\n",
+    "print(expected)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 104,
+   "id": "ec5e15e5-c8f8-4805-879c-b8b754c0dd71",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(array([[0.04574812, 0.03840434],\n",
+       "        [1.88388527, 1.58147211],\n",
+       "        [2.50888192, 2.10614035]]),\n",
+       " 8.164532108794889,\n",
+       " 0.0168691957929816)"
+      ]
+     },
+     "execution_count": 104,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "E=(observed-expected)**2/expected\n",
+    "tail_area = stats.chi2.sf(np.sum(E), 2)\n",
+    "E,np.sum(E),tail_area\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0c709859-f9dc-4f75-844b-eb8602838cbe",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "id": "2e1ee6b1-7d23-495d-88ed-accef3dda2a1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on method pdf in module scipy.stats._distn_infrastructure:\n",
+      "\n",
+      "pdf(x, *args, **kwds) method of scipy.stats._continuous_distns.chi2_gen instance\n",
+      "    Probability density function at x of the given RV.\n",
+      "\n",
+      "    Parameters\n",
+      "    ----------\n",
+      "    x : array_like\n",
+      "        quantiles\n",
+      "    arg1, arg2, arg3,... : array_like\n",
+      "        The shape parameter(s) for the distribution (see docstring of the\n",
+      "        instance object for more information)\n",
+      "    loc : array_like, optional\n",
+      "        location parameter (default=0)\n",
+      "    scale : array_like, optional\n",
+      "        scale parameter (default=1)\n",
+      "\n",
+      "    Returns\n",
+      "    -------\n",
+      "    pdf : ndarray\n",
+      "        Probability density function evaluated at x\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "help(stats.chi2.pdf)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "id": "ec3a850e-d803-4a1c-a033-03338da947c4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on _ArrayFunctionDispatcher in module numpy:\n",
+      "\n",
+      "linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0)\n",
+      "    Return evenly spaced numbers over a specified interval.\n",
+      "\n",
+      "    Returns `num` evenly spaced samples, calculated over the\n",
+      "    interval [`start`, `stop`].\n",
+      "\n",
+      "    The endpoint of the interval can optionally be excluded.\n",
+      "\n",
+      "    .. versionchanged:: 1.16.0\n",
+      "        Non-scalar `start` and `stop` are now supported.\n",
+      "\n",
+      "    .. versionchanged:: 1.20.0\n",
+      "        Values are rounded towards ``-inf`` instead of ``0`` when an\n",
+      "        integer ``dtype`` is specified. The old behavior can\n",
+      "        still be obtained with ``np.linspace(start, stop, num).astype(int)``\n",
+      "\n",
+      "    Parameters\n",
+      "    ----------\n",
+      "    start : array_like\n",
+      "        The starting value of the sequence.\n",
+      "    stop : array_like\n",
+      "        The end value of the sequence, unless `endpoint` is set to False.\n",
+      "        In that case, the sequence consists of all but the last of ``num + 1``\n",
+      "        evenly spaced samples, so that `stop` is excluded.  Note that the step\n",
+      "        size changes when `endpoint` is False.\n",
+      "    num : int, optional\n",
+      "        Number of samples to generate. Default is 50. Must be non-negative.\n",
+      "    endpoint : bool, optional\n",
+      "        If True, `stop` is the last sample. Otherwise, it is not included.\n",
+      "        Default is True.\n",
+      "    retstep : bool, optional\n",
+      "        If True, return (`samples`, `step`), where `step` is the spacing\n",
+      "        between samples.\n",
+      "    dtype : dtype, optional\n",
+      "        The type of the output array.  If `dtype` is not given, the data type\n",
+      "        is inferred from `start` and `stop`. The inferred dtype will never be\n",
+      "        an integer; `float` is chosen even if the arguments would produce an\n",
+      "        array of integers.\n",
+      "\n",
+      "        .. versionadded:: 1.9.0\n",
+      "\n",
+      "    axis : int, optional\n",
+      "        The axis in the result to store the samples.  Relevant only if start\n",
+      "        or stop are array-like.  By default (0), the samples will be along a\n",
+      "        new axis inserted at the beginning. Use -1 to get an axis at the end.\n",
+      "\n",
+      "        .. versionadded:: 1.16.0\n",
+      "\n",
+      "    Returns\n",
+      "    -------\n",
+      "    samples : ndarray\n",
+      "        There are `num` equally spaced samples in the closed interval\n",
+      "        ``[start, stop]`` or the half-open interval ``[start, stop)``\n",
+      "        (depending on whether `endpoint` is True or False).\n",
+      "    step : float, optional\n",
+      "        Only returned if `retstep` is True\n",
+      "\n",
+      "        Size of spacing between samples.\n",
+      "\n",
+      "\n",
+      "    See Also\n",
+      "    --------\n",
+      "    arange : Similar to `linspace`, but uses a step size (instead of the\n",
+      "             number of samples).\n",
+      "    geomspace : Similar to `linspace`, but with numbers spaced evenly on a log\n",
+      "                scale (a geometric progression).\n",
+      "    logspace : Similar to `geomspace`, but with the end points specified as\n",
+      "               logarithms.\n",
+      "    :ref:`how-to-partition`\n",
+      "\n",
+      "    Examples\n",
+      "    --------\n",
+      "    >>> np.linspace(2.0, 3.0, num=5)\n",
+      "    array([2.  , 2.25, 2.5 , 2.75, 3.  ])\n",
+      "    >>> np.linspace(2.0, 3.0, num=5, endpoint=False)\n",
+      "    array([2. ,  2.2,  2.4,  2.6,  2.8])\n",
+      "    >>> np.linspace(2.0, 3.0, num=5, retstep=True)\n",
+      "    (array([2.  ,  2.25,  2.5 ,  2.75,  3.  ]), 0.25)\n",
+      "\n",
+      "    Graphical illustration:\n",
+      "\n",
+      "    >>> import matplotlib.pyplot as plt\n",
+      "    >>> N = 8\n",
+      "    >>> y = np.zeros(N)\n",
+      "    >>> x1 = np.linspace(0, 10, N, endpoint=True)\n",
+      "    >>> x2 = np.linspace(0, 10, N, endpoint=False)\n",
+      "    >>> plt.plot(x1, y, 'o')\n",
+      "    [<matplotlib.lines.Line2D object at 0x...>]\n",
+      "    >>> plt.plot(x2, y + 0.5, 'o')\n",
+      "    [<matplotlib.lines.Line2D object at 0x...>]\n",
+      "    >>> plt.ylim([-0.5, 1])\n",
+      "    (-0.5, 1)\n",
+      "    >>> plt.show()\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "help(np.linspace)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "5f062d72-aaa7-49c5-a7d5-2ddb6a461f4c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#reference"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 105,
+   "id": "21f909b0-a22c-493d-a414-c9af90a4192c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on method cdf in module scipy.stats._distn_infrastructure:\n",
+      "\n",
+      "cdf(x, *args, **kwds) method of scipy.stats._continuous_distns.norm_gen instance\n",
+      "    Cumulative distribution function of the given RV.\n",
+      "\n",
+      "    Parameters\n",
+      "    ----------\n",
+      "    x : array_like\n",
+      "        quantiles\n",
+      "    arg1, arg2, arg3,... : array_like\n",
+      "        The shape parameter(s) for the distribution (see docstring of the\n",
+      "        instance object for more information)\n",
+      "    loc : array_like, optional\n",
+      "        location parameter (default=0)\n",
+      "    scale : array_like, optional\n",
+      "        scale parameter (default=1)\n",
+      "\n",
+      "    Returns\n",
+      "    -------\n",
+      "    cdf : ndarray\n",
+      "        Cumulative distribution function evaluated at `x`\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "help(stats.norm.cdf)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "8bcc5d5b-47c8-42b5-95a0-4cdc35b6c229",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([2, 1, 4])"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "np.random.choice(5, size=3,replace=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "fbbdbe3a-11cb-407b-a61d-4c12a9d73379",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on built-in function choice:\n",
+      "\n",
+      "choice(...) method of numpy.random.mtrand.RandomState instance\n",
+      "    choice(a, size=None, replace=True, p=None)\n",
+      "\n",
+      "    Generates a random sample from a given 1-D array\n",
+      "\n",
+      "    .. versionadded:: 1.7.0\n",
+      "\n",
+      "    .. note::\n",
+      "        New code should use the `~numpy.random.Generator.choice`\n",
+      "        method of a `~numpy.random.Generator` instance instead;\n",
+      "        please see the :ref:`random-quick-start`.\n",
+      "\n",
+      "    Parameters\n",
+      "    ----------\n",
+      "    a : 1-D array-like or int\n",
+      "        If an ndarray, a random sample is generated from its elements.\n",
+      "        If an int, the random sample is generated as if it were ``np.arange(a)``\n",
+      "    size : int or tuple of ints, optional\n",
+      "        Output shape.  If the given shape is, e.g., ``(m, n, k)``, then\n",
+      "        ``m * n * k`` samples are drawn.  Default is None, in which case a\n",
+      "        single value is returned.\n",
+      "    replace : boolean, optional\n",
+      "        Whether the sample is with or without replacement. Default is True,\n",
+      "        meaning that a value of ``a`` can be selected multiple times.\n",
+      "    p : 1-D array-like, optional\n",
+      "        The probabilities associated with each entry in a.\n",
+      "        If not given, the sample assumes a uniform distribution over all\n",
+      "        entries in ``a``.\n",
+      "\n",
+      "    Returns\n",
+      "    -------\n",
+      "    samples : single item or ndarray\n",
+      "        The generated random samples\n",
+      "\n",
+      "    Raises\n",
+      "    ------\n",
+      "    ValueError\n",
+      "        If a is an int and less than zero, if a or p are not 1-dimensional,\n",
+      "        if a is an array-like of size 0, if p is not a vector of\n",
+      "        probabilities, if a and p have different lengths, or if\n",
+      "        replace=False and the sample size is greater than the population\n",
+      "        size\n",
+      "\n",
+      "    See Also\n",
+      "    --------\n",
+      "    randint, shuffle, permutation\n",
+      "    random.Generator.choice: which should be used in new code\n",
+      "\n",
+      "    Notes\n",
+      "    -----\n",
+      "    Setting user-specified probabilities through ``p`` uses a more general but less\n",
+      "    efficient sampler than the default. The general sampler produces a different sample\n",
+      "    than the optimized sampler even if each element of ``p`` is 1 / len(a).\n",
+      "\n",
+      "    Sampling random rows from a 2-D array is not possible with this function,\n",
+      "    but is possible with `Generator.choice` through its ``axis`` keyword.\n",
+      "\n",
+      "    Examples\n",
+      "    --------\n",
+      "    Generate a uniform random sample from np.arange(5) of size 3:\n",
+      "\n",
+      "    >>> np.random.choice(5, 3)\n",
+      "    array([0, 3, 4]) # random\n",
+      "    >>> #This is equivalent to np.random.randint(0,5,3)\n",
+      "\n",
+      "    Generate a non-uniform random sample from np.arange(5) of size 3:\n",
+      "\n",
+      "    >>> np.random.choice(5, 3, p=[0.1, 0, 0.3, 0.6, 0])\n",
+      "    array([3, 3, 0]) # random\n",
+      "\n",
+      "    Generate a uniform random sample from np.arange(5) of size 3 without\n",
+      "    replacement:\n",
+      "\n",
+      "    >>> np.random.choice(5, 3, replace=False)\n",
+      "    array([3,1,0]) # random\n",
+      "    >>> #This is equivalent to np.random.permutation(np.arange(5))[:3]\n",
+      "\n",
+      "    Generate a non-uniform random sample from np.arange(5) of size\n",
+      "    3 without replacement:\n",
+      "\n",
+      "    >>> np.random.choice(5, 3, replace=False, p=[0.1, 0, 0.3, 0.6, 0])\n",
+      "    array([2, 3, 0]) # random\n",
+      "\n",
+      "    Any of the above can be repeated with an arbitrary array-like\n",
+      "    instead of just integers. For instance:\n",
+      "\n",
+      "    >>> aa_milne_arr = ['pooh', 'rabbit', 'piglet', 'Christopher']\n",
+      "    >>> np.random.choice(aa_milne_arr, 5, p=[0.5, 0.1, 0.1, 0.3])\n",
+      "    array(['pooh', 'pooh', 'pooh', 'Christopher', 'piglet'], # random\n",
+      "          dtype='<U11')\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "help(np.random.choice)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
