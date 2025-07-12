@@ -9,7 +9,7 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
 2. **Probability**  
     - [02_Probability](02_Probability)  
 3. **Inference**  
-    - [04_Introduction to Statistical Inference](04_Introduction to Statistical Inference)
+    - [04_Introduction to Statistical Inference/](04_Introduction to Statistical Inference/)
     - [05 Point of Estimate](05 Point of Estimate)  
 4. **Regression**  
 
