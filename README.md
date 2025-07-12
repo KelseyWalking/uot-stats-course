@@ -8,8 +8,8 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
     - [00_Python](00_Python)  
     - [Bias Detection](01_data_handling/bias_detection.py)  
 2. **Probability**  
-    - [Bayesian vs. Frequentist](02_probability/bayesian_vs_frequentist.ipynb)  
-3. **Linear Regression**  
+    - [02_Probability](02_Probability)  
+3. **Inference**  
     - [Marketing Spend Analysis](07_linear_regression/marketing_spend_analysis.ipynb)  
 
 ## 🛠️ Tools Used  
