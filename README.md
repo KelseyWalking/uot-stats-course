@@ -5,7 +5,7 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
 
 ## 🗂️ Contents
 1. **Data Handling**  
-    - [Sampling Methods](01_data_handling/sampling_methods.ipynb)  
+    - [00_Python](00_Python)  
     - [Bias Detection](01_data_handling/bias_detection.py)  
 2. **Probability**  
     - [Bayesian vs. Frequentist](02_probability/bayesian_vs_frequentist.ipynb)  
