@@ -7,11 +7,14 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
 1. **Data Handling**  
     - [00_Python](00_Python)  
 2. **Probability**  
-    - [02_Probability](02_Probability)  
-3. **Inference**  
+    - [02_Probability](02_Probability)
+  
+3. **Distribution**    -
+   
+4. **Inference**  
     - [04_Introduction to Statistical Inference/](04_Introduction to Statistical Inference/)
     - [05 Point of Estimate](05 Point of Estimate)  
-4. **Regression**  
+5. **Regression**  
 
 ## 🛠️ Tools Used  
 - Python (Pandas, SciPy, statsmodels)  
