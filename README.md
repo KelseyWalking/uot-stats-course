@@ -6,15 +6,15 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
 ## 🗂️ Contents
 1. **Data Handling**  
     - [00_Python](00_Python)  
-    - [Bias Detection](01_data_handling/bias_detection.py)  
 2. **Probability**  
     - [02_Probability](02_Probability)  
 3. **Inference**  
-    - [Marketing Spend Analysis](07_linear_regression/marketing_spend_analysis.ipynb)  
+    - [04_Introduction to Statistical Inference](04_Introduction to Statistical Inference)
+    - [05 Point of Estimate](05 Point of Estimate)  
+4. **Regression**  
 
 ## 🛠️ Tools Used  
 - Python (Pandas, SciPy, statsmodels)  
-- SQL  
 - Jupyter Notebook  
 
 ## 🙋 How to Use  
