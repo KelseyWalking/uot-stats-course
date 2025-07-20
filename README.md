@@ -9,12 +9,13 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
 2. **Probability**  
     - [02_Probability](02_Probability)
   
-3. **Distribution**    -
+3. **Distribution**
+    - [03_Distribution].(03_Distribution)
    
-4. **Inference**  
+5. **Inference**  
     - [04_Introduction to Statistical Inference/](04_Introduction to Statistical Inference/)
     - [05 Point of Estimate](05 Point of Estimate)  
-5. **Regression**  
+6. **Regression**  
     - [06_Linear_Regression](06_Linear_Regression)  
 ## 🛠️ Tools Used  
 - Python (Pandas, SciPy, statsmodels)  
