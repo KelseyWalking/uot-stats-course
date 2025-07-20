@@ -13,9 +13,11 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
     - [03_Distribution](03_Distribution)
    
 4. **Inference**
-5. **Inference_Categorical_and_Numerical_Data**
+   - [04_Inference](04_Inference)
+6. **Inference_Categorical_and_Numerical_Data**
+    - [05_Inference_Categorical_and_Numerical_Data](05_Inference_Categorical_and_Numerical_Data)
 
-6. **Regression**  
+7. **Regression**  
     - [06_Linear_Regression](06_Linear_Regression)  
 ## 🛠️ Tools Used  
 - Python (Pandas, SciPy, statsmodels)  
