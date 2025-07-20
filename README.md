@@ -10,7 +10,7 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
     - [02_Probability](02_Probability)
   
 3. **Distribution**
-    - [03_Distribution].(03_Distribution)
+    - [03_Distribution](03_Distribution)
    
 5. **Inference**  
     - [04_Introduction to Statistical Inference/](04_Introduction to Statistical Inference/)
