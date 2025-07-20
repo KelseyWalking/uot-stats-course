@@ -15,7 +15,7 @@ Includes Python/SQL implementations of statistical concepts, applied to real-wor
     - [04_Introduction to Statistical Inference/](04_Introduction to Statistical Inference/)
     - [05 Point of Estimate](05 Point of Estimate)  
 5. **Regression**  
-
+    - [06_Linear_Regression](06_Linear_Regression)  
 ## 🛠️ Tools Used  
 - Python (Pandas, SciPy, statsmodels)  
 - Jupyter Notebook  
